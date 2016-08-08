@@ -47,9 +47,10 @@ class NewsController
             $id = $_GET['updateId'];
             $title = $_POST['title'];
             $content = $_POST['content'];
+            $categoryId = $_POST['category'];
 
             $newsTable = new NewsTable();
-            $newsTable->updateNews($id, $title, $content);
+            $newsTable->updateNews($id, $title, $content, $categoryId);
 
             $view = new View('News/Update');
 
