@@ -19,31 +19,55 @@ class NewsTable
         $this->dbTable = 'news';
     }
 
-    public function getNews($limit, $offset)
+    public function getNews($limit = 0, $offset = 0)
     {
-        $statement = Connection::getConnection()->prepare('
+        if ($limit != 0 && $offset != 0) {
+            $statement = Connection::getConnection()->prepare('
           SELECT 
             id, image, date, title, content, category_id
             FROM ' . $this->dbTable . ' LIMIT ' . $limit . ' OFFSET ' . $offset
-        );
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
+            );
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
 
-        $result = $statement->fetchAll();
-        
-        $news = [];
-        foreach ($result as $item){
-            $newsItem = new NewsTableRow();
-            $newsItem->setId($item['id']);
-            $newsItem->setImage($item['image']);
-            $newsItem->setDate($item['date']);
-            $newsItem->setTitle($item['title']);
-            $newsItem->setContent($item['content']);
-            $newsItem->setCategoryId($item['category_id']);
-            $news[] = $newsItem;
+            $result = $statement->fetchAll();
+
+            $news = [];
+            foreach ($result as $item){
+                $newsItem = new NewsTableRow();
+                $newsItem->setId($item['id']);
+                $newsItem->setImage($item['image']);
+                $newsItem->setDate($item['date']);
+                $newsItem->setTitle($item['title']);
+                $newsItem->setContent($item['content']);
+                $newsItem->setCategoryId($item['category_id']);
+                $news[] = $newsItem;
+            }
+            return $news;
+        } else {
+            $statement = Connection::getConnection()->prepare('
+          SELECT 
+            id, image, date, title, content, category_id
+            FROM ' . $this->dbTable
+            );
+            $statement->execute();
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+            $result = $statement->fetchAll();
+
+            $news = [];
+            foreach ($result as $item){
+                $newsItem = new NewsTableRow();
+                $newsItem->setId($item['id']);
+                $newsItem->setImage($item['image']);
+                $newsItem->setDate($item['date']);
+                $newsItem->setTitle($item['title']);
+                $newsItem->setContent($item['content']);
+                $newsItem->setCategoryId($item['category_id']);
+                $news[] = $newsItem;
+            }
+            return $news;
         }
-        return $news;
-
     }
     
     public function getNewsCount()

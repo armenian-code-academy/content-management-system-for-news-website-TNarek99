@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: mikayel
- * Date: 7/30/16
- * Time: 9:53 AM
- */
 class HomeController
 {
 
@@ -15,6 +9,6 @@ class HomeController
         $actionName = substr(__METHOD__, strlen(__CLASS__) + 2);
         $actionName = substr($actionName, 0, strlen($actionName) - 6);
 
-        require_once ROOT . 'View/' . $className . '/' . $actionName . '.php';
+        require_once NEWS_WEBSITE_ROOT . 'View/Template/' . $className . '/' . $actionName . '.php';
     }
 }

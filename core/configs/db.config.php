@@ -2,5 +2,5 @@
 
 const HOST = "localhost";
 const USER_NAME = "root";
-const PASSWORD = "Tigranitoxindznery:D";
+const PASSWORD = "qrtmnkl1205";
 const DATABASE = "aca-pre-exam-2";

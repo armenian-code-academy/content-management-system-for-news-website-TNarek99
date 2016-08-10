@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mikayel
- * Date: 7/25/16
- * Time: 8:34 PM
- */
 
-define('NEWS_ROOT', '/var/www/html/News/');
+define('NEWS_WEBSITE_ROOT', '/var/www/html/News/website/');
+define('NEWS_ADMIN_ROOT', '/var/www/html/News/admin/');
 
 $controller = 'home';
 $action = 'index';
@@ -19,8 +14,8 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
 $controller = ucfirst($controller);
 $controller .= 'Controller';
 
-if (file_exists( NEWS_ROOT . '/admin/Controller/' . $controller . '.php' )) {
-    require_once NEWS_ROOT . '/admin/Controller/' . $controller . '.php';
+if (file_exists( NEWS_WEBSITE_ROOT . 'Controller/' . $controller . '.php' )) {
+    require_once NEWS_WEBSITE_ROOT . 'Controller/' . $controller . '.php';
 
     if (class_exists($controller)) {
         $controllerObj = new $controller;
@@ -28,24 +23,25 @@ if (file_exists( NEWS_ROOT . '/admin/Controller/' . $controller . '.php' )) {
         if (method_exists($controllerObj, $action)) {
 
         } else {
-            require_once NEWS_ROOT . '/admin/Controller/ErrorController.php';
+            require_once NEWS_WEBSITE_ROOT . '../admin/Controller/ErrorController.php';
             $errorController = new ErrorController($action . ' method not found', 404);
             $errorController->errorAction();
             die;
         }
 
     } else {
-        require_once NEWS_ROOT . '/admin/Controller/ErrorController.php';
+        require_once NEWS_WEBSITE_ROOT . 'admin/Controller/ErrorController.php';
         $errorController = new ErrorController($controller . ' class not found', 404);
         $errorController->errorAction();
         die;
     }
 
 } else {
-    require_once NEWS_ROOT . '/admin/Controller/ErrorController.php';
+    require_once NEWS_WEBSITE_ROOT . '../admin/Controller/ErrorController.php';
     $errorController = new ErrorController($controller . ' file not found', 404);
     $errorController->errorAction();
     die;
 }
 
-$controllerObj->$action();
+$view = $controllerObj->$action();
+$view->render();

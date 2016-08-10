@@ -14,10 +14,9 @@ class View
         try {
             $file = NEWS_ADMIN_ROOT . 'View/Template/' . $template . '.php';
 
-
-
             if (file_exists($file)) {
                 $this->template = $file;
+
             } else {
                 throw new Exception('Template ' . $template . ' not found!');
             }
