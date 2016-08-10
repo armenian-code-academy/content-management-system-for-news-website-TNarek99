@@ -43,5 +43,9 @@ if (file_exists( NEWS_WEBSITE_ROOT . 'Controller/' . $controller . '.php' )) {
     die;
 }
 
+require NEWS_WEBSITE_ROOT . 'View/Template/Layout/Heading.php';
+
 $view = $controllerObj->$action();
 $view->render();
+
+require NEWS_WEBSITE_ROOT . 'View/Template/Layout/Padding.php';

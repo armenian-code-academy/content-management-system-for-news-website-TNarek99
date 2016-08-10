@@ -16,10 +16,16 @@ class NewsController
 
         $news = $newsTable->getNews();
         $categories = $newsCategoryTable->getNewsCategories();
+        
+        $categoryId = $categories[0]->getId();
+        if (isset($_GET['category'])) {
+            $categoryId = $_GET['category'];
+        }
 
         $view = new View('../../../website/View/Template/News/List');
         $view->assign('news', $news);
         $view->assign('categories', $categories);
+        $view->assign('categoryId', $categoryId);
         //$view->assign('pagination', $pagination);
 
         return $view;
