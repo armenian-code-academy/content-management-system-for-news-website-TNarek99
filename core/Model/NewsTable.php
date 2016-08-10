@@ -23,7 +23,7 @@ class NewsTable
     {
         $statement = Connection::getConnection()->prepare('
           SELECT 
-            id, date, title, content, category_id
+            id, image, date, title, content, category_id
             FROM ' . $this->dbTable . ' LIMIT ' . $limit . ' OFFSET ' . $offset
         );
         $statement->execute();
@@ -35,6 +35,7 @@ class NewsTable
         foreach ($result as $item){
             $newsItem = new NewsTableRow();
             $newsItem->setId($item['id']);
+            $newsItem->setImage($item['image']);
             $newsItem->setDate($item['date']);
             $newsItem->setTitle($item['title']);
             $newsItem->setContent($item['content']);
@@ -60,13 +61,14 @@ class NewsTable
         return $result['count'];
     }
     
-    public function addNews($title, $content, $category_id)
+    public function addNews($image, $title, $content, $category_id)
     {
         $statement = Connection::getConnection()->prepare('
-          INSERT INTO ' . $this->dbTable .' (`title`, `content`, `category_id`) 
-          VALUES (:title, :content, :category_id)'
+          INSERT INTO ' . $this->dbTable .' (`image`, `title`, `content`, `category_id`) 
+          VALUES (:image, :title, :content, :category_id)'
         );
 
+        $statement->bindParam("image", $image, PDO::PARAM_STR);
         $statement->bindParam("title", $title, PDO::PARAM_STR);
         $statement->bindParam("content", $content, PDO::PARAM_STR);
         $statement->bindParam("category_id", $category_id, PDO::PARAM_STR);
@@ -83,11 +85,17 @@ class NewsTable
         $statement->execute();
     }
 
-    public function updateNews($id, $title, $content, $category_id)
+    public function updateNews($id, $image = null, $title, $content, $category_id)
     {
-        $statement = Connection::getConnection()->prepare('
-          UPDATE ' . $this->dbTable . ' SET title = "' . $title . '", content = "' . $content . '", category_id = "' . $category_id . '" WHERE id=' . $id
-        );
+        if ($image != null) {
+            $statement = Connection::getConnection()->prepare('
+              UPDATE ' . $this->dbTable . ' SET image = "' . $image . '", title = "' . $title . '", content = "' . $content . '", category_id = "' . $category_id . '" WHERE id=' . $id
+            );
+        } else {
+            $statement = Connection::getConnection()->prepare('
+              UPDATE ' . $this->dbTable . ' SET title = "' . $title . '", content = "' . $content . '", category_id = "' . $category_id . '" WHERE id=' . $id
+            );
+        }
 
         $statement->execute();
     }
@@ -95,7 +103,7 @@ class NewsTable
     public function getNewsById($id)
     {
         $statement = Connection::getConnection()->prepare('
-          SELECT id, date, title, content, category_id 
+          SELECT id, image, date, title, content, category_id 
           FROM ' . $this->dbTable . ' WHERE id = ' . $id
         );
         $statement->execute();
@@ -105,6 +113,7 @@ class NewsTable
 
         $news = new NewsTableRow();
         $news->setId($result['id']);
+        $news->setImage($result['image']);
         $news->setTitle($result['title']);
         $news->setContent($result['content']);
         $news->setCategoryId($result['category_id']);

@@ -12,7 +12,8 @@ $updateNews =  $updateNewsTable->getNewsById($_GET['updateId']);
 ?>
 
 <h1 class="page-header">News</h1>
-<form method="post" action="<?= NEWS_ADMIN_ROOT_URL . '?controller=news&action=update&updateId=' . $_GET['updateId'] ?>">
+<form method="post" enctype="multipart/form-data" action="<?= NEWS_ADMIN_ROOT_URL . '?controller=news&action=update&updateId=' . $_GET['updateId'] ?>">
+    <input class="form-control" type="file" name="image">
     <input class="form-control" type="text" name="title" placeholder="Title" value="<?= $updateNews->getTitle() ?>">
     <input class="form-control" type="text" name="content" placeholder="Content" value="<?= $updateNews->getContent() ?>">
     <select class="form-control" name="category">

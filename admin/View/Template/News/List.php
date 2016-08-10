@@ -9,6 +9,7 @@
     echo
     '<tr>
     <td>' . $value->getId() . '</td>
+    <td>' . $value->getImage() . '</td>
     <td>' . $value->getDate() . '</td>
     <td>' . $value->getTitle() . '</td>
     <td>' . $value->getContent() . '</td>
