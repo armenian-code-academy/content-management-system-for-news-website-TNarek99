@@ -13,6 +13,11 @@
     font-weight: bold;
 }
 
+.categories-list-item-chosen{
+    background: black;
+    color: white;
+}
+
 .news-list-item{
     margin-bottom: 20px;
     display: block;

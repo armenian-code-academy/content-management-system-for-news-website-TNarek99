@@ -2,9 +2,11 @@
     <?php 
     
     foreach ($news as $newsItem) {
-        echo '<li class="news-list-item">';
-        echo $newsItem->getTitle();
-        echo '</li>';
+        if ($newsItem->getCategoryId() == $categoryId) {
+            echo '<li class="news-list-item">';
+            echo $newsItem->getTitle();
+            echo '</li>';
+        }
     }
     
     ?>
